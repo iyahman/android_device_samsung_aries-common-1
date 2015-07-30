@@ -18,27 +18,21 @@
 package org.omnirom.device;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceManager;
 
-public class Hspa implements OnPreferenceChangeListener {
+public class Bigmem implements OnPreferenceChangeListener {
 
-    private static final String APK_FILE = "/system/app/SamsungServiceMode/SamsungServiceMode.apk";
-    private Context mCtx;
-
-    public Hspa(Context context) {
-        mCtx = context;
-    }
+    private static final String FILE = "/sys/kernel/bigmem/enable";
 
     public static boolean isSupported() {
-        return Utils.fileExists(APK_FILE);
+        return Utils.fileExists(FILE);
     }
 
     /**
-     * Restore HSPA setting from SharedPreferences. (Write to kernel.)
+     * Restore bigmem setting from SharedPreferences. (Write to kernel.)
      * @param context       The context to read the SharedPreferences from
      */
     public static void restore(Context context) {
@@ -47,19 +41,13 @@ public class Hspa implements OnPreferenceChangeListener {
         }
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        sendIntent(context, sharedPrefs.getString(DeviceSettings.KEY_HSPA, "23"));
+        Utils.writeValue(FILE, sharedPrefs.getString(DeviceSettings.KEY_BIGMEM, "0"));
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        sendIntent(mCtx, (String) newValue);
+        Utils.writeValue(FILE, (String) newValue);
         return true;
     }
 
-    private static void sendIntent(Context context, String value) {
-        Intent i = new Intent("org.omnirom.SamsungServiceMode.EXECUTE");
-        i.putExtra("sub_type", 20); // HSPA Setting
-        i.putExtra("data", value);
-        context.sendBroadcast(i);
-    }
 }

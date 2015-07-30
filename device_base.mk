@@ -202,11 +202,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # ART
 PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dex2oat-Xms=8m \
-    dalvik.vm.dex2oat-Xmx=96m \
-    dalvik.vm.image-dex2oat-Xms=48m \
-    dalvik.vm.image-dex2oat-Xmx=48m \
-    dalvik.vm.dex2oat-filter=interpret-only \
+    dalvik.vm.dex2oat-flags=--no-watch-dog \
+    dalvik.vm.dex2oat-filter=balanced \
     dalvik.vm.image-dex2oat-filter=speed
 
 # Camera
@@ -217,6 +214,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # SGX540 is slower with the scissor optimization enabled
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.hwui.disable_scissor_opt=true
+
+# Use high-end graphics to work around notification bug
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.force_highendgfx=true
 
 # Enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -248,9 +249,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 # ART
 PRODUCT_DEX_PREOPT_DEFAULT_FLAGS := \
     --compiler-filter=interpret-only
-
-# we have enough storage space to hold precise GC data
-PRODUCT_TAGS += dalvik.gc.type-precise
 
 include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 

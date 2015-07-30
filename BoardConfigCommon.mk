@@ -147,7 +147,6 @@ TARGET_BOOTANIMATION_USE_RGB565 := true
 
 # Hardware rendering
 USE_OPENGL_RENDERER := true
-BOARD_EGL_CFG := device/samsung/aries-common/egl.cfg
 BOARD_EGL_SYSTEMUI_PBSIZE_HACK := true
 
 # OMX buffer reallocate
@@ -163,6 +162,7 @@ TARGET_DISABLE_TRIPLE_BUFFERING := false
 BOARD_ALLOW_EGL_HIBERNATION := true
 BOARD_EGL_WORKAROUND_BUG_10194508 := true
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+HWUI_COMPILE_FOR_PERF := true
 
 # hwcomposer: custom vsync ioctl
 BOARD_CUSTOM_VSYNC_IOCTL := true
@@ -211,7 +211,7 @@ BOARD_SEPOLICY_UNION += \
 -include device/samsung/aries-common/Android.mk
 
 # TWRP Flags
-TW_THEME := portrait_hdpi
+TW_THEME := portrait_mdpi
 TW_NO_REBOOT_BOOTLOADER := true
 TW_EXCLUDE_MTP := true
 TW_INTERNAL_STORAGE_PATH := "/sdcard"
